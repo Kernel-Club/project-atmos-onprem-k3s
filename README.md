@@ -1,12 +1,14 @@
-# project-atmos-onprem-k3s
+# atmos-k8s
 
-Everything that runs inside the on-premise Kubernetes cluster of **Project Atmos**, delivered by Flux (GitOps).
+Everything that runs inside the on-premise Kubernetes cluster of **Atmos** (nodes `k8s-cp` and `k8s-w1`), delivered by Flux (GitOps).
 
 ```text
-Nexus ─► Flux: new tag ─► commit to main ─► Helm upgrade ─► http://atmos.lan
+Nexus (nexus-traefik) ─► Flux: new tag ─► commit to main ─► Helm upgrade ─► http://atmos.lan
 ```
 
-> k3s itself is installed by [project-atmos-onprem-ansible](https://github.com/Kernel-Club/project-atmos-onprem-ansible) (`roles/k3s/`). This repository holds only the workloads.
+> k3s itself is installed by [atmos-ansible](https://github.com/Kernel-Club/atmos-ansible) (`roles/k3s/`). This repository holds only the workloads.
+>
+> The cluster pulls images only from Nexus on the `nexus-traefik` VM, so it keeps running while the `jenkins` VM is stopped.
 
 ## Contents
 
@@ -50,8 +52,8 @@ Not stored in Git. Created by hand with `kubectl create secret`: OpenWeather key
 
 | Repository | Role |
 |---|---|
-| [project-atmos-dev](https://github.com/Kernel-Club/project-atmos-dev) | Application source and on-premise docs (`docs/on-premise/`) |
-| [project-atmos-onprem-ansible](https://github.com/Kernel-Club/project-atmos-onprem-ansible) | Servers and k3s installation |
-| [project-atmos-onprem-jenkins](https://github.com/Kernel-Club/project-atmos-onprem-jenkins) | CI pipeline that publishes the images |
+| [atmos-dev](https://github.com/Kernel-Club/atmos-dev) | Application source and on-premise docs (`docs/on-premise/`) |
+| [atmos-ansible](https://github.com/Kernel-Club/atmos-ansible) | Servers and k3s installation |
+| [atmos-jenkins](https://github.com/Kernel-Club/atmos-jenkins) | CI pipeline that publishes the images |
 
-Branching: `main` is the state of the cluster; changes via `feature/*` / `fix/*` and a Pull Request. Flux commits image tags directly to `main` ([branching model](https://github.com/Kernel-Club/project-atmos-dev/blob/develop/docs/on-premise/branching-model.md)).
+Branching: `main` is the state of the cluster; changes via `feature/*` / `fix/*` and a Pull Request. Flux commits image tags directly to `main` ([branching model](https://github.com/Kernel-Club/atmos-dev/blob/develop/docs/on-premise/branching-model.md)).
